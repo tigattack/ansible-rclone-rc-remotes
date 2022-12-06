@@ -7,6 +7,22 @@ galaxy_info:
   author: tigattack
   description: Create Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
   license: "license (MIT)"
-  min_ansible_version: "2.4"
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Alpine
+      versions:
+        - all
+    - name: ArchLinux
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
   galaxy_tags:
     - rclone
