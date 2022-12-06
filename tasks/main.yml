@@ -18,7 +18,7 @@
 - name: Create rclone gmedia remotes
   ansible.builtin.include_tasks:
     file: rclone-create-remote.yml
-  when: rclone_config.name not in (rclone_listremotes.content | from_yaml).remotes
+  when: rclone_config.name not in (rclone_listremotes.content | from_json).remotes
   loop: "{{ rclone_remotes }}"
   loop_control:
     loop_var: rclone_config
@@ -36,7 +36,7 @@
     return_content: true
     headers:
       Accept: application/json
-  loop: "{{ (rclone_listremotes.content | from_yaml).remotes }}"
+  loop: "{{ (rclone_listremotes.content | from_json).remotes }}"
   when: item not in rclone_remotes | map(attribute='name')
   register: remove_undefined_remotes
   changed_when: remove_undefined_remotes.status == 200

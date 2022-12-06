@@ -26,7 +26,7 @@
       name: "{{ rclone_config.name }}"
       parameters: "{{ rclone_config.parameters }}"
       opt:
-        state: "{{ (create_remote.content | from_yaml).State }}"
+        state: "{{ (create_remote.content | from_json).State }}"
         result: "false" # This must be a string for some reason
         continue: true # This must be a boolean
     body_format: json
