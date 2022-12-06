@@ -1,0 +1,12 @@
+---
+
+dependencies: []
+
+galaxy_info:
+  role_name: rclone_rc_remotes
+  author: tigattack
+  description: Create Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
+  license: "license (MIT)"
+  min_ansible_version: "2.4"
+  galaxy_tags:
+    - rclone

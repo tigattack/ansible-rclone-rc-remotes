@@ -1,0 +1,46 @@
+---
+
+- name: Initiate rclone remote creation
+  ansible.builtin.uri:
+    url: http://{{ rclone_host }}:{{ rclone_port }}/config/create
+    body: >-
+      {{ rclone_config | combine({
+        "opt": {
+          "nonInteractive": true,
+          "configIsLocal": false
+      }}) }}
+    body_format: json
+    method: POST
+    url_username: "{{ rclone_username }}"
+    url_password: "{{ rclone_password }}"
+    return_content: true
+    headers:
+      Accept: application/json
+  register: create_remote
+  changed_when: create_remote.status == 200
+
+- name: Respond 'no' to rclone auto config query
+  ansible.builtin.uri:
+    url: http://{{ rclone_host }}:{{ rclone_port }}/config/update
+    body:
+      name: "{{ rclone_config.name }}"
+      parameters: "{{ rclone_config.parameters }}"
+      opt:
+        state: "{{ (create_remote.content | from_yaml).State }}"
+        result: "false" # This must be a string for some reason
+        continue: true # This must be a boolean
+    body_format: json
+    method: POST
+    url_username: "{{ rclone_username }}"
+    url_password: "{{ rclone_password }}"
+    return_content: true
+    headers:
+      Accept: application/json
+  register: rclone_config_response
+  changed_when: rclone_config_response.status == 200
+
+- name: Authenticate new remote
+  ansible.builtin.include_tasks:
+    file: rclone-authenticate-remote.yml
+  vars:
+    remote_name: "{{ rclone_config.name }}"

@@ -1,0 +1,24 @@
+---
+
+# Rclone rc hostname/ip
+rclone_host: "{{ ansible_fqdn }}"
+
+# Rclone rc port
+rclone_port: '5572'
+
+# Rclone rc username
+rclone_username: ''
+
+# Rclone rc password
+rclone_password: ''
+
+# List of Rclone remotes like so:
+# rclone_remotes:
+#   - name: my-remote
+#     type: drive
+#     parameters:
+#       scope: drive
+#       client_id: "01234"
+#       client_secret: "56789"
+#       root_folder_id: "abcde"
+rclone_remotes: []

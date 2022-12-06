@@ -1,0 +1,38 @@
+---
+
+- name: Check rclone authentication
+  ansible.builtin.command: "rclone backend drives {{ remote_name }}:"
+  changed_when: false
+  failed_when: false
+  register: rclone_auth_check
+
+- name: retry loop
+  when: "'empty token found' in rclone_auth_check.stderr"
+  block:
+    - name: Authenticate Rclone Notice
+      ansible.builtin.debug:
+        msg: |
+          ======== NOTICE ========
+          Rclone needs to be authenticated. Please follow these steps:
+          * Connect to {{ rclone_host }}
+          * Run: sudo rclone config reconnect {{ remote_name }}:
+          * DO NOT use auto config.
+          * Follow instructions in output.
+          * Resume when completed.
+
+    - name: Wait for authentication
+      ansible.builtin.pause:
+
+    - name: Re-check Rclone authentication
+      ansible.builtin.command: "rclone backend drives {{ remote_name }}:"
+      register: rclone_auth_recheck
+      changed_when: false
+      failed_when: "'empty token found' in rclone_auth_recheck.stderr"
+  rescue:
+    - name: Authentication failed
+      ansible.builtin.debug:
+        msg: Authentication failed, please retry
+
+    - name: Include task
+      ansible.builtin.include_tasks:
+        file: rclone-authenticate-remote.yml

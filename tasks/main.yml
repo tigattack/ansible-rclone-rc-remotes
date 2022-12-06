@@ -1,0 +1,42 @@
+---
+
+- name: Get rclone remotes
+  ansible.builtin.uri:
+    url: http://{{ rclone_host }}:{{ rclone_port }}/config/listremotes
+    body: {}
+    method: POST
+    body_format: json
+    url_username: "{{ rclone_username }}"
+    url_password: "{{ rclone_password }}"
+    return_content: true
+    headers:
+      Accept: application/json
+  register: rclone_listremotes
+  check_mode: false
+  changed_when: false
+
+- name: Create rclone gmedia remotes
+  ansible.builtin.include_tasks:
+    file: rclone-create-remote.yml
+  when: rclone_config.name not in (rclone_listremotes.content | from_yaml).remotes
+  loop: "{{ rclone_remotes }}"
+  loop_control:
+    loop_var: rclone_config
+    label: "{{ rclone_config.name }}"
+
+- name: Remove undefined remotes # noqa no-log-password
+  ansible.builtin.uri:
+    url: http://{{ rclone_host }}:{{ rclone_port }}/config/delete
+    body:
+      name: "{{ item }}"
+    method: POST
+    body_format: json
+    url_username: "{{ rclone_username }}"
+    url_password: "{{ rclone_password }}"
+    return_content: true
+    headers:
+      Accept: application/json
+  loop: "{{ (rclone_listremotes.content | from_yaml).remotes }}"
+  when: item not in rclone_remotes | map(attribute='name')
+  register: remove_undefined_remotes
+  changed_when: remove_undefined_remotes.status == 200
