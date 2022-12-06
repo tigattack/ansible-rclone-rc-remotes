@@ -6,7 +6,7 @@
   failed_when: false
   register: rclone_auth_check
 
-- name: retry loop
+- name: Retry loop
   when: "'empty token found' in rclone_auth_check.stderr"
   block:
     - name: Authenticate Rclone Notice
