@@ -37,6 +37,8 @@
     headers:
       Accept: application/json
   loop: "{{ (rclone_listremotes.content | from_json).remotes }}"
-  when: item not in rclone_remotes | map(attribute='name')
+  when:
+    - remove_undefined_remotes
+    - item not in rclone_remotes | map(attribute='name')
   register: remove_undefined_remotes
   changed_when: remove_undefined_remotes.status == 200

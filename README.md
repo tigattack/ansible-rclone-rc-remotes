@@ -1,6 +1,6 @@
 # Ansible Role: rclone_rc_remotes
 
-An Ansible role that creates Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
+An Ansible role to create & remote Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
 
 Install the role: `ansible-galaxy install tigattack.rclone_rc_remotes`
 
@@ -19,6 +19,7 @@ None.
 - `rclone_username`: Rclone rc username.
 - `rclone_password`: Rclone rc password.
 - `rclone_remotes`: List (array) of Rclone remotes.
+- `remove_undefined_remotes`: If `true`, any Rclone remotes that are not defined in the `rclone_remotes` variable will be removed. Defaults to `false`.
 
 `rclone_remotes` example, based on a simple Google Drive remote configuration:
 

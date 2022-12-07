@@ -22,3 +22,6 @@ rclone_password: ''
 #       client_secret: "56789"
 #       root_folder_id: "abcde"
 rclone_remotes: []
+
+# Remove any Rclone remotes that are not defined in the `rclone_remotes` variable.
+remove_undefined_remotes: false
