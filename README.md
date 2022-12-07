@@ -20,7 +20,7 @@ None.
 
 `rclone_remotes` example, based on a simple Google Drive remote configuration:
 
-```
+```yml
 rclone_remotes:
   - name: my-remote
     type: drive
@@ -39,7 +39,7 @@ In such cases, Ansible will prompt you with some instructions, pause execution, 
 
 ## Example Playbook
 
-```yaml
+```yml
 - hosts: all
   roles:
     - role: tigattack.rclone_rc_remotes
