@@ -2,6 +2,8 @@
 
 An Ansible role that creates Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
 
+Install the role: `ansible-galaxy install tigattack.rclone_rc_remotes`
+
 ## Requirements
 
 None.
