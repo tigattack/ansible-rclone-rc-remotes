@@ -3,7 +3,7 @@
 [![Build Status][build_badge]][build_link]
 [![Ansible Galaxy][galaxy_badge]][galaxy_link]
 
-An Ansible role to create & remote Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
+An Ansible role to create & remove Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
 
 Install the role: `ansible-galaxy install tigattack.rclone_rc_remotes`
 
