@@ -1,5 +1,8 @@
 # Ansible Role: rclone_rc_remotes
 
+[![Build Status][build_badge]][build_link]
+[![Ansible Galaxy][galaxy_badge]][galaxy_link]
+
 An Ansible role to create & remote Rclone remotes via Rclone's [rc API](https://rclone.org/rc).
 
 Install the role: `ansible-galaxy install tigattack.rclone_rc_remotes`
@@ -62,3 +65,9 @@ In such cases, Ansible will prompt you with some instructions, pause execution, 
 This role is not tested automatically as it would require defining a usable remote for Rclone.
 
 Please feel free to suggest a way this could be done without relying on a real-world service if you have any ideas.
+
+
+[build_badge]:  https://img.shields.io/github/actions/workflow/status/tigattack/ansible-rclone-rc-remotes/ci.yml?branch=main
+[build_link]:   https://github.com/tigattack/ansible-rclone-rc-remotes/actions?query=workflow:CI
+[galaxy_badge]: https://img.shields.io/ansible/role/61091
+[galaxy_link]:  https://galaxy.ansible.com/tigattack/rclone_rc_remotes
