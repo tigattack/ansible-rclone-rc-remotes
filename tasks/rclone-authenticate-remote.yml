@@ -3,7 +3,7 @@
 - name: Check rclone authentication
   ansible.builtin.command: "rclone backend drives {{ remote_name }}:"
   changed_when: false
-  failed_when: false
+  failed_when: "rclone_auth_check.rc != 0 and 'empty token found' not in rclone_auth_check.stderr"
   register: rclone_auth_check
 
 - name: Retry loop
