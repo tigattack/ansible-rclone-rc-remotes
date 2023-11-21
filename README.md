@@ -60,6 +60,19 @@ In such cases, Ansible will prompt you with some instructions, pause execution, 
               root_folder_id: "abcde"
 ```
 
+### Usage for authenticating remotes without rclone rc
+
+While it's not the primary point of this role, one of the task files can be used to authenticate existing remotes if authentication is needed, like so:
+
+```yml
+- name: Configure rclone remote
+  ansible.builtin.include_role:
+    name: tigattack.rclone_rc_remotes
+    tasks_from: rclone-authenticate-remote.yml
+  vars:
+    remote_name: my-remote
+```
+
 ## Note on testing
 
 This role is not tested automatically as it would require defining a usable remote for Rclone.
