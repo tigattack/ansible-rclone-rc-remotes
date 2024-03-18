@@ -1,10 +1,4 @@
 ---
-# This workflow requires a GALAXY_API_KEY secret present in the GitHub
-# repository or organization.
-#
-# See: https://github.com/marketplace/actions/publish-ansible-role-to-galaxy
-# See: https://github.com/ansible/galaxy/issues/46
-
 
 name: Release
 on:
@@ -30,10 +24,17 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Retrieve Galaxy API token
+        uses: bitwarden/sm-action@v2
+        with:
+          access_token: ${{ secrets.BWS_ACCESS_TOKEN }}
+          secrets: |
+            e890ac15-9c21-439a-a5d2-b118013ceeb6 > GALAXY_API_KEY
+
       - name: Install Ansible
         run: pip3 install ansible-core
 
       - name: Import role to Galaxy
         run: >-
-          ansible-galaxy role import --api-key ${{ secrets.GALAXY_API_KEY }}
+          ansible-galaxy role import --api-key "$GALAXY_API_KEY"
           ${{ github.repository_owner }} ${{ github.event.repository.name }}
