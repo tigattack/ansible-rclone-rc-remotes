@@ -1,13 +1,25 @@
 ---
 
 - name: Check rclone authentication
-  ansible.builtin.command: "rclone backend drives {{ remote_name }}:"
-  changed_when: false
-  failed_when: "rclone_auth_check.rc != 0 and 'empty token found' not in rclone_auth_check.stderr"
+  ansible.builtin.uri:
+    url: http://{{ rclone_host }}:{{ rclone_port }}/operations/about
+    body:
+      fs: "{{ remote_name }}"
+    body_format: json
+    method: POST
+    url_username: "{{ rclone_username }}"
+    url_password: "{{ rclone_password }}"
+    return_content: true
+    headers:
+      Accept: application/json
   register: rclone_auth_check
+  changed_when: rclone_auth_check.status == 200
+  failed_when:
+    - rclone_auth_check.json.error is defined
+    - "'empty token found' not in rclone_auth_check.json.error"
 
 - name: Retry loop
-  when: "'empty token found' in rclone_auth_check.stderr"
+  when: "'empty token found' in rclone_auth_check.json.error | default('')"
   block:
     - name: Authenticate Rclone Notice
       ansible.builtin.debug:
@@ -23,11 +35,22 @@
     - name: Wait for authentication
       ansible.builtin.pause:
 
-    - name: Re-check Rclone authentication
-      ansible.builtin.command: "rclone backend drives {{ remote_name }}:"
+    - name: Re-check rclone authentication
+      ansible.builtin.uri:
+        url: http://{{ rclone_host }}:{{ rclone_port }}/operations/about
+        body:
+          fs: "{{ remote_name }}"
+        body_format: json
+        method: POST
+        url_username: "{{ rclone_username }}"
+        url_password: "{{ rclone_password }}"
+        return_content: true
+        headers:
+          Accept: application/json
       register: rclone_auth_recheck
-      changed_when: false
-      failed_when: "'empty token found' in rclone_auth_recheck.stderr"
+      changed_when: rclone_auth_recheck.status == 200
+      failed_when: "'empty token found' in rclone_auth_recheck.json.error | default('')"
+
   rescue:
     - name: Authentication failed
       ansible.builtin.debug:
