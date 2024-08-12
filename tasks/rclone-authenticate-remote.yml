@@ -2,9 +2,10 @@
 
 - name: Check rclone authentication
   ansible.builtin.uri:
-    url: http://{{ rclone_host }}:{{ rclone_port }}/operations/about
+    url: http://{{ rclone_host }}:{{ rclone_port }}/operations/stat
     body:
       fs: "{{ remote_name }}"
+      remote: '/'
     body_format: json
     method: POST
     url_username: "{{ rclone_username }}"
