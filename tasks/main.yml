@@ -17,15 +17,9 @@
 
 - name: Parse rc API response
   ansible.builtin.set_fact:
-    rclone_listremotes_contents: "{{ (rclone_listremotes.content | from_json).remotes }}"
+    rclone_listremotes_contents: |
+        {{ [] if not (rclone_listremotes.content | from_json).remotes else (rclone_listremotes.content | from_json).remotes | default([]) }}
 
-# If no existing remotes, API will give `null` response
-- name: Handle null/empty response values
-  ansible.builtin.set_fact:
-    rclone_listremotes_contents: []
-  when: >-
-    rclone_listremotes_contents is undefined
-    or not rclone_listremotes_contents
 
 - name: Create new rclone remotes
   ansible.builtin.include_tasks:
