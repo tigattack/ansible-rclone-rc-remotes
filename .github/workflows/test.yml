@@ -1,0 +1,34 @@
+---
+name: Test
+on:
+  push:
+    branches: [main]
+    tags-ignore:
+      - '**'
+  pull_request:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ansible/ansible-lint@v25.9.2
+
+  role_name:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_call' }}
+    outputs:
+      role_name: ${{ steps.get_role_name.outputs.role_name }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - id: get_role_name
+        run: |
+          namespace=`yq eval '.galaxy_info.namespace' meta/main.yml`
+          role_name=`yq eval '.galaxy_info.role_name' meta/main.yml`
+          echo "role_name=${namespace}.${role_name}" | tee -a $GITHUB_OUTPUT

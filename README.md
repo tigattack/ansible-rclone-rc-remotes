@@ -11,10 +11,6 @@ Install the role: `ansible-galaxy role install tigattack.rclone_rc_remotes`
 
 None.
 
-## Dependencies
-
-None.
-
 ## Role Variables
 
 - `rclone_host`: Rclone rc hostname or IP address. Defaults to `{{ ansible_fqdn }}`.
