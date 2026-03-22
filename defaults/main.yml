@@ -1,7 +1,7 @@
 ---
 
 # Rclone rc hostname/ip
-rclone_host: "{{ ansible_fqdn }}"
+rclone_host: "{{ ansible_facts.fqdn }}"
 
 # Rclone rc port
 rclone_port: '5572'

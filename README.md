@@ -13,7 +13,7 @@ None.
 
 ## Role Variables
 
-- `rclone_host`: Rclone rc hostname or IP address. Defaults to `{{ ansible_fqdn }}`.
+- `rclone_host`: Rclone rc hostname or IP address. Defaults to `{{ ansible_facts.fqdn }}`.
 - `rclone_port`: Rclone rc port. Defaults to `5572`, rc's default port.
 - `rclone_username`: Rclone rc username.
 - `rclone_password`: Rclone rc password.
