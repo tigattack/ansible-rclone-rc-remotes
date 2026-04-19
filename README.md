@@ -76,7 +76,7 @@ This role is not tested automatically as it would require defining a usable remo
 Please feel free to suggest a way this could be done without relying on a real-world service if you have any ideas.
 
 
-[build_badge]:  https://img.shields.io/github/actions/workflow/status/tigattack/ansible-rclone-rc-remotes/ci.yml?branch=main&label=Ansible%20Lint
-[build_link]:   https://github.com/tigattack/ansible-rclone-rc-remotes/actions?query=workflow:CI
+[build_badge]:  https://img.shields.io/github/actions/workflow/status/tigattack/ansible-rclone-rc-remotes/test.yml?branch=main&label=Ansible%20Lint
+[build_link]:   https://github.com/tigattack/ansible-rclone-rc-remotes/actions?query=workflow:Test
 [galaxy_badge]: https://img.shields.io/ansible/role/d/tigattack/rclone_rc_remotes
 [galaxy_link]:  https://galaxy.ansible.com/tigattack/rclone_rc_remotes
