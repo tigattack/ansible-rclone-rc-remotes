@@ -10,6 +10,10 @@ on:
     - cron: "0 5 * * 1"
   workflow_dispatch:
   workflow_call:
+    outputs:
+      role_name:
+        description: 'Ansible role name'
+        value: ${{ jobs.role_name.outputs.role_name }}
 
 jobs:
   lint:
@@ -21,7 +25,6 @@ jobs:
 
   role_name:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_call' }}
     outputs:
       role_name: ${{ steps.get_role_name.outputs.role_name }}
     steps:
